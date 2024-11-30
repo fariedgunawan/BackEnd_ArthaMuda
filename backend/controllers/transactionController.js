@@ -99,7 +99,6 @@ const deleteTransaction = async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id;
 
-    // Hapus transaksi
     const isDeleted = await transactionModel.deleteTransactionById(id, userId);
 
     if (isDeleted) {

@@ -27,7 +27,7 @@ const deleteTransactionById = async (id, userId) => {
 
 const updateTransactionById = async (id, userId, name, amount, date) => {
   const [result] = await db.query("UPDATE transactions SET name = ?, amount = ?, date = ? WHERE id = ? AND user_id = ?", [name, amount, date, id, userId]);
-  return result.affectedRows > 0; // Mengembalikan true jika ada baris yang diperbarui
+  return result.affectedRows > 0;
 };
 
 const getTotalIncome = async (userId) => {

@@ -15,5 +15,5 @@ app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 
 app.listen(PORT, () => {
-    console.log(`Server berjalan di http://localhost:${PORT}`);
+    console.log(`Server berjalan...`);
 });

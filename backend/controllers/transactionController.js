@@ -188,6 +188,34 @@ const calculateAndUpdateBalance = async (req, res) => {
   }
 };
 
+const getTransactionById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const transaction = await transactionModel.getTransactionById(id, userId);
+
+    if (transaction) {
+      res.status(200).json({
+        success: true,
+        message: "Data transaksi berhasil diambil.",
+        data: transaction,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Transaksi tidak ditemukan atau Anda tidak memiliki akses.",
+      });
+    }
+  } catch (error) {
+    console.error("Kesalahan saat mengambil transaksi:", error);
+    res.status(500).json({
+      success: false,
+      message: "Terjadi kesalahan server.",
+    });
+  }
+};
+
 module.exports = {
   addTransaction,
   getTransactions,
@@ -196,4 +224,5 @@ module.exports = {
   deleteTransaction,
   updateTransaction,
   calculateAndUpdateBalance,
+  getTransactionById,
 };

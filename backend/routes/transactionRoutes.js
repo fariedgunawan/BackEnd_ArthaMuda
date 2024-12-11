@@ -1,5 +1,5 @@
 const express = require("express");
-const { addTransaction, getTransactions, getIncomeTransactions, getOutcomeTransactions, deleteTransaction, updateTransaction, calculateAndUpdateBalance } = require("../controllers/transactionController");
+const { addTransaction, getTransactions, getIncomeTransactions, getOutcomeTransactions, deleteTransaction, updateTransaction, calculateAndUpdateBalance, getTransactionById } = require("../controllers/transactionController");
 const { authenticateToken } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
@@ -11,5 +11,6 @@ router.get("/outcome", authenticateToken, getOutcomeTransactions);
 router.delete("/:id", authenticateToken, deleteTransaction);
 router.put("/:id", authenticateToken, updateTransaction);
 router.get("/balance", authenticateToken, calculateAndUpdateBalance);
+router.get("/:id", authenticateToken, getTransactionById);
 
 module.exports = router;

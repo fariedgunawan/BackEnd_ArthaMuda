@@ -45,6 +45,14 @@ const updateBalance = async (userId, balance) => {
   return result.affectedRows > 0;
 };
 
+const getTransactionById = async (id, userId) => {
+  const [rows] = await db.query(
+    "SELECT id, type, name, amount, date FROM transactions WHERE id = ? AND user_id = ?",
+    [id, userId]
+  );
+  return rows[0]; 
+};
+
 module.exports = {
   createTransaction,
   getTransactionsByUser,
@@ -55,4 +63,5 @@ module.exports = {
   getTotalIncome,
   getTotalOutcome,
   updateBalance,
+  getTransactionById,
 };

@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModels");
+const { findByUsername } = require("../models/userModels");
 
 const register = async (req, res) => {
   const { username, password } = req.body;
@@ -52,6 +53,27 @@ const login = async (req, res) => {
   }
 };
 
+const getUserInfo = async (req, res) => {
+  try {
+    // Extract the username from the token payload
+    const token = req.header("Authorization").replace("Bearer ", "");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const username = decoded.username; // assuming your token has the 'username' field
+
+    // Find the user in the database
+    const user = await findByUsername(username);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Send the user's username in the response
+    res.json({ username: user.username });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 const logout = (req, res) => {
   try {
     res.clearCookie("token", {
@@ -73,4 +95,4 @@ const logout = (req, res) => {
   }
 };
 
-module.exports = { register, login, logout };
+module.exports = { register, login, logout, getUserInfo };

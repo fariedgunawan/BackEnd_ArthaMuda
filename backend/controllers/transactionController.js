@@ -216,6 +216,54 @@ const getTransactionById = async (req, res) => {
   }
 };
 
+const analyzeSpending = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Ambil total income dan outcome pengguna
+    const totalIncome = await transactionModel.getTotalIncome(userId);
+    const totalOutcome = await transactionModel.getTotalOutcome(userId);
+
+    if (totalIncome === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Tidak ada data income yang tersedia untuk analisis.",
+      });
+    }
+
+    // Hitung persentase pengeluaran
+    const spendingPercentage = Math.round((totalOutcome / totalIncome) * 100);
+
+    // Tentukan kategori boros atau tidak
+    let status;
+    if (spendingPercentage > 70) {
+      status = "boros";
+    } else if (spendingPercentage >= 50) {
+      status = "sedang";
+    } else {
+      status = "hemat";
+    }
+
+    // Kembalikan hasil analisis
+    res.status(200).json({
+      success: true,
+      message: "Analisis pengeluaran berhasil.",
+      data: {
+        spendingPercentage,
+        status,
+      },
+    });
+  } catch (error) {
+    console.error("Kesalahan saat menganalisis pengeluaran:", error);
+    res.status(500).json({
+      success: false,
+      message: "Terjadi kesalahan server.",
+    });
+  }
+};
+
+
+
 module.exports = {
   addTransaction,
   getTransactions,
@@ -225,4 +273,5 @@ module.exports = {
   updateTransaction,
   calculateAndUpdateBalance,
   getTransactionById,
+  analyzeSpending,
 };

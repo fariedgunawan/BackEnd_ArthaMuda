@@ -1,3 +1,11 @@
+# **Dokumentasi Instalasi**
+1. Pake GitHub Desktop lebih enak
+2. Cloning Repositorynya
+3. Cara run diterminal langsung aja
+```
+node server.js
+```
+
 # **Dokumentasi backend endpoint**
 http://localhost:3000/api/auth/login (POST)
 http://localhost:3000/api/auth/register (POST)

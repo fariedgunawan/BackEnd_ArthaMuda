@@ -3,6 +3,9 @@
 2. Cloning Repositorynya
 3. Cara run diterminal langsung aja
 ```
+npm install
+```
+```
 node server.js
 ```
 
